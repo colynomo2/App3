@@ -8,7 +8,7 @@ namespace App3
 {
     internal class FilterHelper:Filter
     {
-        static Items currentItems;
+        static Products currentItems;
         static ItemsAdapter adapter;
 
         protected override FilterResults PerformFiltering(ICharSequence constraint)
@@ -17,11 +17,11 @@ namespace App3
             if(constraint!=null && constraint.Length()>0)
             {
                 string query = constraint.ToString().ToUpper();
-                JavaList<Item> filteredItems = new JavaList<Item>();
+                JavaList<Product> filteredItems = new JavaList<Product>();
                 
                 for(int i = 0; i < currentItems.NumItems; i++)
                 {
-                    string itemName = currentItems[i].Text;
+                    string itemName = currentItems[i].Name;
                     if(itemName.ToUpper().Contains(query.ToString()))
                     {
                         filteredItems.Add(currentItems[i]);
@@ -43,11 +43,11 @@ namespace App3
 
         protected override void PublishResults(ICharSequence constraint, FilterResults results)
         {
-            adapter.setItems((JavaList<Item>)results.Values);
+            adapter.setItems((JavaList<Product>)results.Values);
             adapter.NotifyDataSetChanged();
         }
 
-        internal static Filter newInstace(Items currentItems, ItemsAdapter itemsAdapter)
+        internal static Filter newInstace(Products currentItems, ItemsAdapter itemsAdapter)
         {
             adapter = itemsAdapter;
             FilterHelper.currentItems = currentItems;

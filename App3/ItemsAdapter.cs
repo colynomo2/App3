@@ -9,29 +9,29 @@ namespace App3
 {
     internal class ItemsAdapter : RecyclerView.Adapter, IFilterable
     {
-        private Items mItems;
-        private Items currentItems;
+        private Products mItems;
+        private Products currentItems;
 
         public event EventHandler<int> ItemClick;
-        public ItemsAdapter(Items items)
+        public ItemsAdapter(Products items)
         {
             mItems = items;
-            currentItems = new Items();
-            currentItems.setItems(items.getItems());
+            currentItems = new Products(items.getItems());
+            
         }
 
         public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
         {
             ItemHolder vh = holder as ItemHolder;
          
-            vh.Button.SetBackgroundResource(mItems[position].ItemID);
-            vh.Label.Text = mItems[position].Text;
-            vh.Counter.Text = mItems[position].Counter.ToString();
+            //vh.Button.SetBackgroundResource(mItems[position].ItemID);
+            vh.Label.Text = mItems[position].Name;
+            vh.Counter.Text = mItems[position].InStock.ToString();
 
             
         }
 
-        public void setItems(JavaList<Item> items)
+        public void setItems(JavaList<Product> items)
         {
             mItems.setItems(items);
            
@@ -42,7 +42,7 @@ namespace App3
         {
             View itemView = LayoutInflater.From(parent.Context).
                         Inflate(Resource.Layout.card, parent, false);
-            ItemHolder vh = new ItemHolder(itemView,OnClick);
+            ItemHolder vh = new ItemHolder(itemView);
             return vh;
         }
         
@@ -56,10 +56,10 @@ namespace App3
             get { return FilterHelper.newInstace(currentItems, this); }
         }
 
-        void OnClick(int position)
-        {
-            if (ItemClick != null)
-                ItemClick(this, position);
-        }
+        //void OnClick(int position)
+        //{
+        //    if (ItemClick != null)
+        //        ItemClick(this, position);
+        //}
     }
 }

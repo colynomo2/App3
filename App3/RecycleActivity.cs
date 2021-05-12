@@ -18,17 +18,25 @@ namespace App3
     {
         RecyclerView mRecyclerView;
         RecyclerView.LayoutManager mLayoutManager;
-        Items items ;
+        Products products ;
         ItemsAdapter itemsAdapter;
+        RepositoryDB repositoryDB;
+        Button buttonAdd;
         Android.Support.V7.Widget.SearchView searchView;
         protected override void OnCreate(Bundle savedInstanceState)
         {
+            
             base.OnCreate(savedInstanceState);
 
-            items = new Items();
+            repositoryDB = new RepositoryDB();
+            JavaList<Product> productsList = new JavaList<Product>();
+
+            foreach (Product p in repositoryDB.getAllProducts())
+                productsList.Add(p);
+            products = new Products(productsList);
 
         
-            itemsAdapter = new ItemsAdapter(items);
+            itemsAdapter = new ItemsAdapter(products);
             SetContentView(Resource.Layout.recycle_gl);
 
             itemsAdapter.ItemClick += OnItemClick;
@@ -43,9 +51,31 @@ namespace App3
             mRecyclerView.SetLayoutManager(mLayoutManager);
 
             searchView.QueryTextChange += SearchView_QueryTextChange;
-            
+
+            buttonAdd = FindViewById<Button>(Resource.Id.addButton);
+            buttonAdd.Click += ButtonAdd_Click;
+
+
         }
 
+        private void ButtonAdd_Click(object sender, EventArgs e)
+        {
+            Intent nextActivity = new Intent(this, typeof(AddActivity));
+            StartActivityForResult(nextActivity,0);
+            
+        }
+        protected override void OnActivityResult (int requestCode, Result resultCode, Intent data)
+        {
+            switch (requestCode) {
+            case 0:
+                if (resultCode == Result.Ok) {
+                   //data.getExtra
+                   
+                }
+                break;
+           
+            }
+        }
         private void SearchView_QueryTextChange(object sender, Android.Support.V7.Widget.SearchView.QueryTextChangeEventArgs e)
         {
             itemsAdapter.Filter.InvokeFilter(e.NewText);
@@ -53,8 +83,8 @@ namespace App3
 
         void OnItemClick(object sender, int position)
         {
-            items[position].Counter++;
-            itemsAdapter.NotifyItemChanged(position);
+        //    products[position].Counter++;
+        //    itemsAdapter.NotifyItemChanged(position);
         }
 
     }

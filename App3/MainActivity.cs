@@ -23,6 +23,7 @@ namespace App3
         private int dayOfMonth, year, month;
         EditText dateText;
         Button buttonChange;
+        Button buttonConfirm;
         
         Spinner spinner;
         protected override void OnCreate(Bundle savedInstanceState)
@@ -96,10 +97,20 @@ namespace App3
             adapter.SetDropDownViewResource(Android.Resource.Layout.SimpleSpinnerDropDownItem);
             spinner.Adapter = adapter;
 
+           
+
+
             buttonChange = FindViewById<Button>(Resource.Id.changePageButton);
             buttonChange.Click += ButtonChange_Click;
+            
 
-            RepositoryDB repositoryDB = new RepositoryDB();
+          
+        }
+
+        private void ButtonConfirm_Click(object sender, EventArgs e)
+        {
+            Intent nextActivity = new Intent(this, typeof(ListView));
+            StartActivity(nextActivity);
         }
 
         private void ButtonChange_Click(object sender, EventArgs e)

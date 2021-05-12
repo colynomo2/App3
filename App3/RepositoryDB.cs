@@ -22,34 +22,34 @@ namespace App3
         [MaxLength(20)]
         public string Name { get; set; }
         public int InStock { get; set; }
+        public int categoryId { get; set; }
 
-       
+
+        public static implicit operator String(Product product) => product.Name;
 
     }
-    [Table("Categorie")]
+    [Table("Category")]
     public class Category
     {
         [PrimaryKey, AutoIncrement, Column("_id")]
         public int Id { get; set; }
         [MaxLength(20)]
         public string Name { get; set; }
-        
-        
+   
+
 
     }
-    [Table("Product_Category")]
-    public class Product_Category
-    {
-        [PrimaryKey, AutoIncrement, Column("_id")]
-        public int Id { get; set; }
-        [Indexed]
-        [Column("category_id")]
-        public int CategoryId { get; set; }
-        [Indexed]
-        [Column("product_id")]
-        public int ProductId { get; set; }
+    //[Table("Product_Category")]
+    //public class Product_Category
+    //{
+    //    [PrimaryKey, AutoIncrement, Column("_id")]
+    //    public int Id { get; set; }
+    //    public int CategoryId { get; set; }
+  
 
-    }
+    //    public int ProductId { get; set; }
+
+    //}
 
     public class RepositoryDB
     {
@@ -64,15 +64,23 @@ namespace App3
             db = new SQLiteConnection(dbPath);
             db.CreateTable<Product>();
             db.CreateTable<Category>();
-            db.CreateTable<Product_Category>();
-           
-
 
         }
         public void addProduct(Product product)
         {
             db.Insert(product);
         }
+        public void addCategory(Category category)
+        {
+            db.Insert(category);
+        }
+       
+        public List<Product> getAllProducts()
+        {
+            return db.Query<Product>("select * from Product");
+
+        }
+
 
     }
 }

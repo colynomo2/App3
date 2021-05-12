@@ -17,17 +17,17 @@ namespace App3
     public class ItemHolder : RecyclerView.ViewHolder
     {
         public TextView Label { get; private set; }
-        public Button Button { get; private set; }
+     //   public Button Button { get; private set; }
         public TextView Counter { get; private set; }
 
-        public ItemHolder(View itemView,Action<int> listener) : base(itemView)
+        public ItemHolder(View itemView) : base(itemView)
         {
             
             Label = itemView.FindViewById<TextView>(Resource.Id.labelRecycleItem);
-            Button = itemView.FindViewById<Button>(Resource.Id.buttonRecycleItem);
+            //Button = itemView.FindViewById<Button>(Resource.Id.buttonRecycleItem);
             Counter = itemView.FindViewById<TextView>(Resource.Id.numberRecycleItem);
 
-            Button.Click += (sender, e) => listener(base.LayoutPosition);
+            //Button.Click += (sender, e) => listener(base.LayoutPosition);
         }
     }
 }
