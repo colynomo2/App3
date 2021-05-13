@@ -77,10 +77,20 @@ namespace App3
        
         public List<Product> getAllProducts()
         {
+           
             return db.Query<Product>("select * from Product");
+            
 
         }
 
+        internal void delete(Product p)
+        {
+            db.Delete(p);
+        }
 
+        internal void updateProduct(Product product)
+        {
+            db.Update(product);
+        }
     }
 }

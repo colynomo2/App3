@@ -17,7 +17,7 @@ namespace App3
     {
         Button confirmButton;
         Button cancelButton;
-        Product product;
+        Product product=null;
         EditText editTextName;
         EditText editTextStock;
         Spinner spinnerCategories;
@@ -39,24 +39,35 @@ namespace App3
 
 
             spinnerCategories = FindViewById<Spinner>(Resource.Id.spinnerCategory);
-      
-
+            if (Intent.HasExtra("product"))
+            {
+                string productJson = Intent.Extras.GetString("product");
+            
+                
+                product = JsonSerializer.Deserialize<Product>(productJson);
+                editTextName.Text = product.Name;
+                editTextStock.Text = product.InStock.ToString();
+                
+            }
         }
 
         private void CancelButton_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            SetResult(Result.Canceled);
+            Finish();
         }
 
         private void ConfirmButton_Click(object sender, EventArgs e)
         {
+            if(product==null)
             product = new Product();
             product.Name = editTextName.Text;
-            product.InStock = int.Parse(editTextName.Text);
-            product.categoryId = int.Parse(spinnerCategories.SelectedItem.ToString());
+            product.InStock = int.Parse(editTextStock.Text);
+           // product.categoryId = int.Parse(spinnerCategories.SelectedItem.ToString());
             string jsonString = JsonSerializer.Serialize(product);
-
-            Intent.PutExtra(jsonString, true);
+            Intent intent = new Intent(this,typeof(RecycleActivity));
+            intent.PutExtra("product", jsonString);
+            SetResult(Result.Ok,intent);
             Finish();
         }
     }

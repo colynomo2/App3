@@ -114,6 +114,6 @@
 			android:textColor="@android:color/white"
 			android:text="Cancel"
 			/>
-
+		
 	</LinearLayout>
 </LinearLayout>

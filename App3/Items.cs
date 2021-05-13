@@ -34,10 +34,7 @@ namespace App3
         private JavaList<Product> mItems;
 
 
-        internal JavaList<Product> getItems()
-        {
-            return mItems;
-        }
+        
 
         public Products(JavaList<Product> products)
         {
@@ -46,6 +43,10 @@ namespace App3
         public void setItems(JavaList<Product> list)
         {
             mItems = list;
+        }
+        public void addProduct(Product product)
+        {
+            mItems.Add(product);
         }
         public int NumItems
         {
@@ -57,6 +58,22 @@ namespace App3
             get { return mItems[i]; }
         }
 
-        
+        internal Product deleteProduct(int position)
+        {
+            Product p;
+            p = mItems[position];
+            mItems.RemoveAt(position);
+            return p;
+        }
+
+        internal JavaList<Product> getItems()
+        {
+            return mItems;
+        }
+
+        internal void updateProduct(Product product, int lastPosition)
+        {
+            mItems[lastPosition] = product;
+        }
     }
 }

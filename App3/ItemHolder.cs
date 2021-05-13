@@ -14,20 +14,36 @@ using Android.Widget;
 
 namespace App3
 {
-    public class ItemHolder : RecyclerView.ViewHolder
+    public class ItemHolder : RecyclerView.ViewHolder,View.IOnCreateContextMenuListener
     {
         public TextView Label { get; private set; }
      //   public Button Button { get; private set; }
         public TextView Counter { get; private set; }
-
-        public ItemHolder(View itemView) : base(itemView)
+        private ItemsAdapter itemsAdapter;
+        public ItemHolder(View itemView,ItemsAdapter itemsAdapter) : base(itemView)
         {
             
             Label = itemView.FindViewById<TextView>(Resource.Id.labelRecycleItem);
             //Button = itemView.FindViewById<Button>(Resource.Id.buttonRecycleItem);
             Counter = itemView.FindViewById<TextView>(Resource.Id.numberRecycleItem);
+            itemView.SetOnCreateContextMenuListener(this);
+            this.itemsAdapter = itemsAdapter;
 
-            //Button.Click += (sender, e) => listener(base.LayoutPosition);
+
         }
+
+       
+
+        public void OnCreateContextMenu(IContextMenu menu, View v, IContextMenuContextMenuInfo menuInfo)
+        {
+            menu.SetHeaderTitle("Action");
+            menu.Add(Resource.Id.action_edit).SetOnMenuItemClickListener(itemsAdapter).SetTitle("Edit");
+            menu.Add(Resource.Id.action_delete).SetOnMenuItemClickListener(itemsAdapter).SetTitle("Delete");
+         
+
+
+        }
+
+      
     }
 }
