@@ -14,19 +14,28 @@ using Android.Widget;
 
 namespace App3
 {
-    public class ItemHolder : RecyclerView.ViewHolder,View.IOnCreateContextMenuListener
+    public class ItemHolder : RecyclerView.ViewHolder,View.IOnCreateContextMenuListener, View.IOnClickListener
     {
-        public TextView Label { get; private set; }
+        public TextView Name { get; private set; }
      //   public Button Button { get; private set; }
-        public TextView Counter { get; private set; }
+        public TextView InStock { get; private set; }
+        public TextView Category { get; private set; }
+        public CheckBox SlectedCheckBox { get; private set; }
+
         private ItemsAdapter itemsAdapter;
         public ItemHolder(View itemView,ItemsAdapter itemsAdapter) : base(itemView)
         {
             
-            Label = itemView.FindViewById<TextView>(Resource.Id.labelRecycleItem);
+            Name = itemView.FindViewById<TextView>(Resource.Id.labelRecycleItem);
             //Button = itemView.FindViewById<Button>(Resource.Id.buttonRecycleItem);
-            Counter = itemView.FindViewById<TextView>(Resource.Id.numberRecycleItem);
+            InStock = itemView.FindViewById<TextView>(Resource.Id.numberRecycleItem);
+            Category = itemView.FindViewById<TextView>(Resource.Id.categoryRecycleItem);
+            SlectedCheckBox = itemView.FindViewById<CheckBox>(Resource.Id.checkBoxRecycle);
+
             itemView.SetOnCreateContextMenuListener(this);
+
+            SlectedCheckBox.SetOnClickListener(this);
+
             this.itemsAdapter = itemsAdapter;
 
 
@@ -44,6 +53,9 @@ namespace App3
 
         }
 
-      
+        public void OnClick(View v)
+        {
+            itemsAdapter.OnClick();
+        }
     }
 }

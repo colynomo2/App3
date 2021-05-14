@@ -3,6 +3,7 @@ using Android.Support.V7.Widget;
 using Android.Views;
 using Android.Widget;
 using System;
+using System.Collections.Generic;
 using static Android.Resource;
 
 namespace App3
@@ -13,6 +14,7 @@ namespace App3
         private Products currentItems;
         private int positionx;
         private RecyclerView recyclerView;
+
         public event EventHandler<int> ItemClick;
         RepositoryDB db;
         RecycleActivity recycleActivity;
@@ -23,6 +25,8 @@ namespace App3
             this.recyclerView = recyclerView;
             currentItems = new Products(items.getItems());
             this.recycleActivity = recycleActivity;
+           
+            
         }
         public bool OnLongClick(View v)
         {
@@ -34,11 +38,20 @@ namespace App3
             ItemHolder vh = holder as ItemHolder;
          
             //vh.Button.SetBackgroundResource(mItems[position].ItemID);
-            vh.Label.Text = mItems[position].Name;
-            vh.Counter.Text = mItems[position].InStock.ToString();
+            vh.Name.Text = mItems[position].Name;
+            vh.InStock.Text = mItems[position].InStock.ToString();
+
+            vh.Category.Text = db.GetCategoryById(mItems[position].categoryId).Name;
+            
+            vh.SlectedCheckBox.Checked = mItems[position].Checked;
+          
             holder.ItemView.SetOnLongClickListener(this);
+       
     
         }
+
+        
+
         public bool OnMenuItemClick(IMenuItem item)
         {
             switch (item.TitleFormatted.ToString())
@@ -83,8 +96,8 @@ namespace App3
             get { return FilterHelper.newInstace(currentItems, this); }
         }
 
-        //void OnClick(int position,string option)
-        //{
+       public void OnClick()
+        {
         //    switch(option)
         //    {
         //        case "Delete":
@@ -99,15 +112,29 @@ namespace App3
         //            }
 
         //    }
-        //    //if (ItemClick != null)
-        //    //    ItemClick(this, position);
+            if (ItemClick != null)
+                ItemClick(this, recycleActivity.lastPosition);
+        }
+        //public void deleteSelected()
+        //{
+        //    for (int i = 0; i < isChecked.Capacity; i++)
+        //    {
+        //        if (isChecked[i] == true)
+        //        {
+        //            db.delete(mItems[i]);
+        //            mItems.deleteProduct(i);
+        //            isChecked.RemoveAt(i);
+        //        }
+                
+        //    }
+        //    NotifyDataSetChanged();
         //}
-
         private void delete(int position)
         {
             
             db.delete(mItems[position]);
             mItems.deleteProduct(position);
+            
             NotifyItemRemoved(position);
         }
 

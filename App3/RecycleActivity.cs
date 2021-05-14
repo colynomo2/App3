@@ -20,9 +20,9 @@ namespace App3
         RecyclerView.LayoutManager mLayoutManager;
         Products products ;
         ItemsAdapter itemsAdapter;
-        RepositoryDB repositoryDB;
+        public static RepositoryDB repositoryDB;
         Button buttonAdd;
-        int lastPosition;
+        public int lastPosition;
         Android.Support.V7.Widget.SearchView searchView;
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -43,9 +43,6 @@ namespace App3
             itemsAdapter.ItemClick += OnItemClick;
 
             searchView= FindViewById<Android.Support.V7.Widget.SearchView>(Resource.Id.searchView);
-
-      
-
             mRecyclerView.SetAdapter(itemsAdapter);
 
             mLayoutManager = new LinearLayoutManager(this);
@@ -86,24 +83,23 @@ namespace App3
                             itemsAdapter.mItems.addProduct(product);
                             repositoryDB.addProduct(product);
                             itemsAdapter.NotifyDataSetChanged();
-
-
+                            
                         }
                        break;
                     }
-                case 1:
+            case 1:
+                {
+                    if (resultCode == Result.Ok)
                     {
-                        if (resultCode == Result.Ok)
-                        {
-                            Product product;
-                            string jsonProduct = data.GetStringExtra("product");
-                            product = JsonSerializer.Deserialize<Product>(jsonProduct);
-                            itemsAdapter.mItems.updateProduct(product,lastPosition);
-                            repositoryDB.updateProduct(product);
-                            itemsAdapter.NotifyItemChanged(lastPosition);
-                        }
-                        break;
+                        Product product;
+                        string jsonProduct = data.GetStringExtra("product");
+                        product = JsonSerializer.Deserialize<Product>(jsonProduct);
+                        itemsAdapter.mItems.updateProduct(product,lastPosition);
+                        repositoryDB.updateProduct(product);
+                        itemsAdapter.NotifyItemChanged(lastPosition);
                     }
+                    break;
+                }
             }
         }
         private void SearchView_QueryTextChange(object sender, Android.Support.V7.Widget.SearchView.QueryTextChangeEventArgs e)
@@ -113,8 +109,8 @@ namespace App3
 
         void OnItemClick(object sender, int position)
         {
-        //    products[position].Counter++;
-        //    itemsAdapter.NotifyItemChanged(position);
+            products[position].Checked = !products[position].Checked;
+
         }
 
     }

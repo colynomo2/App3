@@ -11,39 +11,109 @@
         card_view:cardCornerRadius="10dp">
 		<LinearLayout
 			android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
+			android:layout_height="wrap_content"
+			android:orientation="horizontal"
 			android:weightSum="100"
-			>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="8dp"
-				android:layout_weight="5">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@android:color/black"
-                android:text="Text"
-                android:id="@+id/labelRecycleItem"
-				android:textAlignment="center"
-                android:layout_gravity="center_horizontal"
-                 />
-			<TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@android:color/black"
-                android:text="text"
-                android:id="@+id/numberRecycleItem"
-				android:textAlignment="center"
-                android:layout_gravity="center_horizontal"
-                 />
 			
-        </LinearLayout>
-		
-			 </LinearLayout>
+			>
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:orientation="vertical"
+				android:padding="8dp"
+				android:layout_weight="12"
+				>
+				<LinearLayout
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:orientation="horizontal"
+					android:weightSum="100"
+					>
+					<TextView
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:layout_weight="70"
+						android:textAppearance="?android:attr/textAppearanceMedium"
+						android:textColor="@android:color/black"
+						android:text="Name:"
+						android:textSize="10dp"
+				/>
+					<TextView
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:textAppearance="?android:attr/textAppearanceMedium"
+						android:textColor="@android:color/black"
+						android:text="Text"
+						android:id="@+id/labelRecycleItem"
+						android:layout_gravity="center_horizontal"
+						android:textSize="10dp"
+                 />
+				</LinearLayout>
+				<LinearLayout
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:orientation="horizontal"
+					android:weightSum="100"
+					>
+					<TextView
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:layout_weight="70"
+						android:textAppearance="?android:attr/textAppearanceMedium"
+						android:textColor="@android:color/black"
+						android:text="Stock:"
+						android:textSize="10dp"
+				/>
+					<TextView
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:textAppearance="?android:attr/textAppearanceMedium"
+						android:textColor="@android:color/black"
+						android:text="text"
+						android:textSize="10dp"
+						android:id="@+id/numberRecycleItem"
+				
+                 />
+				</LinearLayout>
+				<LinearLayout
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:orientation="horizontal"
+					android:weightSum="100"
+					>
+					<TextView
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:layout_weight="70"
+						android:textAppearance="?android:attr/textAppearanceMedium"
+						android:textColor="@android:color/black"
+						android:text="Category:"
+						android:textSize="10dp"
+				/>
+					<TextView
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:textAppearance="?android:attr/textAppearanceMedium"
+						android:textColor="@android:color/black"
+						android:text="text"
+						android:textSize="10dp"
+						android:id="@+id/categoryRecycleItem"
+				
+                 />
+				</LinearLayout>
+			</LinearLayout>
+			
+			<CheckBox
+				android:layout_height="wrap_content"
+				android:layout_width="match_parent"
+				android:id="@+id/checkBoxRecycle"
+				
+				>
+				
+				>
+				
+			
+			</CheckBox>
+		</LinearLayout>
     </android.support.v7.widget.CardView>
 </FrameLayout>

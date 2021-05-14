@@ -21,7 +21,7 @@ namespace App3
         EditText editTextName;
         EditText editTextStock;
         Spinner spinnerCategories;
-
+        List<Category> categories;
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -39,6 +39,11 @@ namespace App3
 
 
             spinnerCategories = FindViewById<Spinner>(Resource.Id.spinnerCategory);
+            ArrayAdapter<Category> arrayAdapter = new ArrayAdapter<Category>(this,Resource.Layout.support_simple_spinner_dropdown_item);
+            categories = RecycleActivity.repositoryDB.GetCategories();
+            arrayAdapter.AddAll(categories);
+            spinnerCategories.Adapter= arrayAdapter;
+
             if (Intent.HasExtra("product"))
             {
                 string productJson = Intent.Extras.GetString("product");
@@ -47,7 +52,9 @@ namespace App3
                 product = JsonSerializer.Deserialize<Product>(productJson);
                 editTextName.Text = product.Name;
                 editTextStock.Text = product.InStock.ToString();
-                
+                spinnerCategories.SetSelection(categories.IndexOf(categories.Where(i => (i.Id == product.categoryId)).FirstOrDefault()));
+
+
             }
         }
 
@@ -63,7 +70,7 @@ namespace App3
             product = new Product();
             product.Name = editTextName.Text;
             product.InStock = int.Parse(editTextStock.Text);
-           // product.categoryId = int.Parse(spinnerCategories.SelectedItem.ToString());
+            product.categoryId = categories.Where(i => (i.Name == spinnerCategories.SelectedItem.ToString())).FirstOrDefault().Id;
             string jsonString = JsonSerializer.Serialize(product);
             Intent intent = new Intent(this,typeof(RecycleActivity));
             intent.PutExtra("product", jsonString);

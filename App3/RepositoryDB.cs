@@ -23,20 +23,24 @@ namespace App3
         public string Name { get; set; }
         public int InStock { get; set; }
         public int categoryId { get; set; }
-
-
+        [Ignore]
+        public bool Checked { get; set; } = false;
         public static implicit operator String(Product product) => product.Name;
 
     }
     [Table("Category")]
     public class Category
     {
+
         [PrimaryKey, AutoIncrement, Column("_id")]
         public int Id { get; set; }
-        [MaxLength(20)]
+        [MaxLength(20),Unique]
         public string Name { get; set; }
-   
 
+        public override string ToString()
+        {
+            return Name;
+        }
 
     }
     //[Table("Product_Category")]
@@ -82,12 +86,18 @@ namespace App3
             
 
         }
-
+        public List<Category> GetCategories()
+        {
+            return db.Query<Category>("select * from Category");
+        }
         internal void delete(Product p)
         {
             db.Delete(p);
         }
-
+        public Category GetCategoryById(int id)
+        {
+            return db.Get<Category>(id);
+        }
         internal void updateProduct(Product product)
         {
             db.Update(product);
