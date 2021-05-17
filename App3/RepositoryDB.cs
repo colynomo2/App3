@@ -23,6 +23,7 @@ namespace App3
         public string Name { get; set; }
         public int InStock { get; set; }
         public int categoryId { get; set; }
+        public float Price { get; set; }
         [Ignore]
         public bool Checked { get; set; } = false;
         public static implicit operator String(Product product) => product.Name;

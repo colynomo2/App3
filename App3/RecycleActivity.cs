@@ -22,6 +22,8 @@ namespace App3
         ItemsAdapter itemsAdapter;
         public static RepositoryDB repositoryDB;
         Button buttonAdd;
+        Button buttonDeleteAll;
+        Spinner spinnerCategories;
         public int lastPosition;
         Android.Support.V7.Widget.SearchView searchView;
         protected override void OnCreate(Bundle savedInstanceState)
@@ -39,6 +41,7 @@ namespace App3
               
             SetContentView(Resource.Layout.recycle_gl);
             mRecyclerView = FindViewById<RecyclerView>(Resource.Id.recycleV);
+
             itemsAdapter = new ItemsAdapter(products,mRecyclerView, repositoryDB,this);
             itemsAdapter.ItemClick += OnItemClick;
 
@@ -52,10 +55,38 @@ namespace App3
 
             buttonAdd = FindViewById<Button>(Resource.Id.addButton);
             buttonAdd.Click += ButtonAdd_Click;
-  
+
+            buttonDeleteAll = FindViewById<Button>(Resource.Id.deleteSelectedButton);
+            buttonDeleteAll.Click += ButtonDeleteAll_Click;
+
+            spinnerCategories = FindViewById<Spinner>(Resource.Id.spinnerCategory);
+            ArrayAdapter<Category> arrayAdapter = new ArrayAdapter<Category>(this, Resource.Layout.support_simple_spinner_dropdown_item);
+            List<Category> categories = RecycleActivity.repositoryDB.GetCategories();
+            arrayAdapter.Add(new Category().Name = "All");
+            arrayAdapter.AddAll(categories);
+            spinnerCategories.Adapter = arrayAdapter;
+            spinnerCategories.ItemSelected += SpinnerCategories_ItemSelected;
 
         }
-        
+
+        private void SpinnerCategories_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
+        {
+            itemsAdapter.FilterCategory.InvokeFilter(spinnerCategories.SelectedItem.ToString());
+        }
+
+        private void ButtonDeleteAll_Click(object sender, EventArgs e)
+        {
+            JavaList<Product> list = new JavaList<Product>(itemsAdapter.mItems.getItems());
+            foreach (Product product in list)
+                if(product.Checked)
+                {
+                    itemsAdapter.currentItems.deleteProduct(product);
+                    itemsAdapter.mItems.deleteProduct(product);
+                    repositoryDB.delete(product);
+                }
+            itemsAdapter.NotifyDataSetChanged();
+        }
+
         private void ButtonAdd_Click(object sender, EventArgs e)
         {
             Intent nextActivity = new Intent(this, typeof(AddActivity));
@@ -109,7 +140,7 @@ namespace App3
 
         void OnItemClick(object sender, int position)
         {
-            products[position].Checked = !products[position].Checked;
+           // products[position].Checked = !products[position].Checked;
 
         }
 

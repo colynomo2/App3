@@ -75,5 +75,11 @@ namespace App3
         {
             mItems[lastPosition] = product;
         }
+
+        internal void deleteProduct(Product product)
+        {
+            if(mItems.IndexOf(product)>=0)
+            mItems.Remove(product);
+        }
     }
 }

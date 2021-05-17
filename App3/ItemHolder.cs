@@ -20,7 +20,9 @@ namespace App3
      //   public Button Button { get; private set; }
         public TextView InStock { get; private set; }
         public TextView Category { get; private set; }
+        public TextView Price { get; private set; }
         public CheckBox SlectedCheckBox { get; private set; }
+        public LinearLayout hiddenLayout { get; private set; }
 
         private ItemsAdapter itemsAdapter;
         public ItemHolder(View itemView,ItemsAdapter itemsAdapter) : base(itemView)
@@ -30,13 +32,15 @@ namespace App3
             //Button = itemView.FindViewById<Button>(Resource.Id.buttonRecycleItem);
             InStock = itemView.FindViewById<TextView>(Resource.Id.numberRecycleItem);
             Category = itemView.FindViewById<TextView>(Resource.Id.categoryRecycleItem);
+            Price = itemView.FindViewById<TextView>(Resource.Id.priceRecycleItem);
             SlectedCheckBox = itemView.FindViewById<CheckBox>(Resource.Id.checkBoxRecycle);
-
+            hiddenLayout = itemView.FindViewById<LinearLayout>(Resource.Id.showMoreLayout);
             itemView.SetOnCreateContextMenuListener(this);
-
-            SlectedCheckBox.SetOnClickListener(this);
+            itemView.SetOnClickListener(this);
+            //SlectedCheckBox.SetOnClickListener(this);
 
             this.itemsAdapter = itemsAdapter;
+            
 
 
         }
@@ -55,7 +59,10 @@ namespace App3
 
         public void OnClick(View v)
         {
-            itemsAdapter.OnClick();
+            if(hiddenLayout.Visibility==ViewStates.Gone)
+            hiddenLayout.Visibility = ViewStates.Visible;
+            else
+                hiddenLayout.Visibility = ViewStates.Gone;
         }
     }
 }

@@ -11,7 +11,7 @@ namespace App3
     public class ItemsAdapter : RecyclerView.Adapter, IFilterable,IMenuItemOnMenuItemClickListener,View.IOnLongClickListener
     {
         public Products mItems;
-        private Products currentItems;
+        public Products currentItems;
         private int positionx;
         private RecyclerView recyclerView;
 
@@ -40,14 +40,20 @@ namespace App3
             //vh.Button.SetBackgroundResource(mItems[position].ItemID);
             vh.Name.Text = mItems[position].Name;
             vh.InStock.Text = mItems[position].InStock.ToString();
-
+            vh.Price.Text = mItems[position].Price.ToString();
             vh.Category.Text = db.GetCategoryById(mItems[position].categoryId).Name;
-            
-            vh.SlectedCheckBox.Checked = mItems[position].Checked;
-          
             holder.ItemView.SetOnLongClickListener(this);
-       
-    
+            vh.SlectedCheckBox.Checked = mItems[vh.AdapterPosition].Checked;
+            if (!vh.SlectedCheckBox.HasOnClickListeners)
+            {
+                vh.SlectedCheckBox.Click += (sender, e) =>
+                {
+                    mItems[vh.AdapterPosition].Checked = !mItems[vh.AdapterPosition].Checked;
+                };
+            }
+            
+            
+
         }
 
         
@@ -96,7 +102,11 @@ namespace App3
             get { return FilterHelper.newInstace(currentItems, this); }
         }
 
-       public void OnClick()
+        public Filter FilterCategory
+        {
+            get { return FilterHelperCategory.newInstace(currentItems, this); }
+        }
+        public void OnClick()
         {
         //    switch(option)
         //    {
@@ -129,7 +139,7 @@ namespace App3
         //    }
         //    NotifyDataSetChanged();
         //}
-        private void delete(int position)
+        public void delete(int position)
         {
             
             db.delete(mItems[position]);

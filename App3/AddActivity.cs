@@ -20,6 +20,7 @@ namespace App3
         Product product=null;
         EditText editTextName;
         EditText editTextStock;
+        EditText editTextPrice;
         Spinner spinnerCategories;
         List<Category> categories;
         protected override void OnCreate(Bundle savedInstanceState)
@@ -36,6 +37,7 @@ namespace App3
 
 
             editTextStock = FindViewById<EditText>(Resource.Id.stockEdit);
+            editTextPrice = FindViewById<EditText>(Resource.Id.priceEdit);
 
 
             spinnerCategories = FindViewById<Spinner>(Resource.Id.spinnerCategory);
@@ -52,6 +54,7 @@ namespace App3
                 product = JsonSerializer.Deserialize<Product>(productJson);
                 editTextName.Text = product.Name;
                 editTextStock.Text = product.InStock.ToString();
+                editTextPrice.Text = product.Price.ToString();
                 spinnerCategories.SetSelection(categories.IndexOf(categories.Where(i => (i.Id == product.categoryId)).FirstOrDefault()));
 
 
@@ -70,6 +73,7 @@ namespace App3
             product = new Product();
             product.Name = editTextName.Text;
             product.InStock = int.Parse(editTextStock.Text);
+            product.Price = float.Parse(editTextPrice.Text);
             product.categoryId = categories.Where(i => (i.Name == spinnerCategories.SelectedItem.ToString())).FirstOrDefault().Id;
             string jsonString = JsonSerializer.Serialize(product);
             Intent intent = new Intent(this,typeof(RecycleActivity));

@@ -101,6 +101,34 @@
 				
                  />
 				</LinearLayout>
+				<LinearLayout
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:orientation="horizontal"
+					android:weightSum="100"
+					android:visibility="gone"
+					android:id="@+id/showMoreLayout"
+					>
+					<TextView
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:layout_weight="70"
+						android:textAppearance="?android:attr/textAppearanceMedium"
+						android:textColor="@android:color/black"
+						android:text="Price:"
+						android:textSize="10dp"
+				/>
+					<TextView
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:textAppearance="?android:attr/textAppearanceMedium"
+						android:textColor="@android:color/black"
+						android:text="text"
+						android:textSize="10dp"
+						android:id="@+id/priceRecycleItem"
+				
+                 />
+				</LinearLayout>
 			</LinearLayout>
 			
 			<CheckBox
