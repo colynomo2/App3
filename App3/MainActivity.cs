@@ -16,16 +16,18 @@ using Android.Support.V4.App;
 
 namespace App3
 {
+   
+
     [Activity(Label = "@string/app_name", Theme = "@style/AppTheme", MainLauncher = true)]
-    public class MainActivity : AppCompatActivity, IOnDateSetListener
+    public class MainActivity : AppCompatActivity
     {
-        private const int DATE_DIALOG = 1;
-        private int dayOfMonth, year, month;
-        EditText dateText;
-        Button buttonChange;
-        Button buttonConfirm;
+      
         
-        Spinner spinner;
+           
+
+        Button testPageButton;
+        Button recycleViewPageButton;
+
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -51,13 +53,10 @@ namespace App3
                 ActivityCompat.RequestPermissions(this, listPermissions.ToArray(), 123/*a code in OnRequestPermissionsResult*/);
             else
             {
-               
-                 init();
-             
+
+                init();
+
             }
-
-           
-
         }
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Permission[] grantResults)
         {
@@ -65,86 +64,31 @@ namespace App3
 
             if (requestCode == 123)
             {
-               
-               init();
-               
+
+                init();
+
             }
         }
 
-        private void init( )
+        private void init()
         {
-          
-            // Set our view from the "main" layout resource
-            SetContentView(Resource.Layout.activity_main);
-
-            dateText = FindViewById<EditText>(Resource.Id.dateText);
-            dateText.Touch += DateText_Touch;
-            DateTime dateTimeNow = DateTime.Now;
-            year = dateTimeNow.Year;
-            dayOfMonth = dateTimeNow.Day;
-            month = dateTimeNow.Month;
-
-            spinner = FindViewById<Spinner>(Resource.Id.spinner);
-            ArrayList arlist = new ArrayList
-            {
-                1,
-                2,
-                3,
-                4
-            };
-            var adapter = ArrayAdapter.CreateFromResource(
-          this, Resource.Array.spinner_array, Android.Resource.Layout.SimpleSpinnerItem);
-            adapter.SetDropDownViewResource(Android.Resource.Layout.SimpleSpinnerDropDownItem);
-            spinner.Adapter = adapter;
-
-           
-
-
-            buttonChange = FindViewById<Button>(Resource.Id.changePageButton);
-            buttonChange.Click += ButtonChange_Click;
-            
-
-          
+            SetContentView(Resource.Layout.main);
+            testPageButton = FindViewById<Button>(Resource.Id.testPage);
+            testPageButton.Click += TestPageButton_Click;
+            recycleViewPageButton = FindViewById<Button>(Resource.Id.recycleViewPage);
+            recycleViewPageButton.Click += RecycleViewPageButton_Click;
         }
 
-        private void ButtonConfirm_Click(object sender, EventArgs e)
+        private void RecycleViewPageButton_Click(object sender, EventArgs e)
         {
-            Intent nextActivity = new Intent(this, typeof(ListView));
+            Intent nextActivity = new Intent(this, typeof(RecycleActivity));
             StartActivity(nextActivity);
         }
 
-        private void ButtonChange_Click(object sender, EventArgs e)
+        private void TestPageButton_Click(object sender, EventArgs e)
         {
-         Intent nextActivity = new Intent(this, typeof(RecycleActivity)   );
-        StartActivity(nextActivity);
-    }
-
-        private void DateText_Touch(object sender, Android.Views.View.TouchEventArgs e)
-        {
-            ShowDialog(DATE_DIALOG);
-        }
-        protected override Dialog OnCreateDialog(int id)
-        {
-            switch (id)
-            {
-                case DATE_DIALOG:
-                    {
-                        Dialog dialog = new DatePickerDialog(this, this, year, month, dayOfMonth);
-
-                        return dialog;
-                    }
-                default:
-                    break;
-            }
-            return null;
-        }
-
-        public void OnDateSet(DatePicker view, int year, int month, int dayOfMonth)
-        {
-            this.year = year;
-            this.month = month + 1;
-            this.dayOfMonth = dayOfMonth;
-            dateText.Text = dayOfMonth + "/" + month + "/" + year;
+            Intent nextActivity = new Intent(this, typeof(TestActivity));
+            StartActivity(nextActivity);
         }
     }
 }

@@ -71,15 +71,24 @@ namespace App3
             return mItems;
         }
 
-        internal void updateProduct(Product product, int lastPosition)
+        internal Product updateProduct(Product product, int lastPosition)
         {
+            Product p = mItems[lastPosition];
+            
             mItems[lastPosition] = product;
+            return p;
         }
 
         internal void deleteProduct(Product product)
         {
             if(mItems.IndexOf(product)>=0)
             mItems.Remove(product);
+        }
+
+        internal void updateProduct(Product product,Product old)
+        {
+            if (mItems.IndexOf(old) >= 0)
+                mItems[mItems.IndexOf(old)] = product;
         }
     }
 }

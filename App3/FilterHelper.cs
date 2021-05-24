@@ -73,7 +73,7 @@ namespace App3
                     for (int i = 0; i < currentItems.NumItems; i++)
                     {
                         string itemName = RecycleActivity.repositoryDB.GetCategoryById(currentItems[i].categoryId).Name;
-                        if (itemName.ToUpper().Contains(query.ToString()))
+                        if (itemName.ToUpper().Contains(query.ToString())&& currentItems[i].getType()>=1)
                         {
                             filteredItems.Add(currentItems[i]);
                         }

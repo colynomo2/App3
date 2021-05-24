@@ -16,16 +16,17 @@ namespace App3
     [Activity(Label = "RecycleActivity")]
     public class RecycleActivity : Activity
     {
-        RecyclerView mRecyclerView;
+        public static RecyclerView mRecyclerView;
         RecyclerView.LayoutManager mLayoutManager;
         Products products ;
-        ItemsAdapter itemsAdapter;
+        public static ItemsAdapter itemsAdapter;
         public static RepositoryDB repositoryDB;
         Button buttonAdd;
         Button buttonDeleteAll;
         Spinner spinnerCategories;
         public int lastPosition;
         Android.Support.V7.Widget.SearchView searchView;
+       
         protected override void OnCreate(Bundle savedInstanceState)
         {
             
@@ -67,6 +68,14 @@ namespace App3
             spinnerCategories.Adapter = arrayAdapter;
             spinnerCategories.ItemSelected += SpinnerCategories_ItemSelected;
 
+            var swipeHandlerDelete = new SwipeToDeleteCallback(0, Android.Support.V7.Widget.Helper.ItemTouchHelper.Left, this, products);
+            var itemTouchHelperDelete = new Android.Support.V7.Widget.Helper.ItemTouchHelper(swipeHandlerDelete);
+            itemTouchHelperDelete.AttachToRecyclerView(mRecyclerView);
+
+            var swipeHandlerEdit = new SwipeToEditCallback(0, Android.Support.V7.Widget.Helper.ItemTouchHelper.Right, this, products,itemsAdapter);
+            var itemTouchHelperEdit = new Android.Support.V7.Widget.Helper.ItemTouchHelper(swipeHandlerEdit);
+            itemTouchHelperEdit.AttachToRecyclerView(mRecyclerView);
+
         }
 
         private void SpinnerCategories_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
@@ -97,7 +106,7 @@ namespace App3
         {
             Intent nextActivity = new Intent(this, typeof(AddActivity));
             string jsonString = JsonSerializer.Serialize(product);
-            nextActivity.PutExtra("product",jsonString);
+            nextActivity.PutExtra("product", jsonString);
             lastPosition = position;
             StartActivityForResult(nextActivity, 1);
         }
@@ -111,10 +120,13 @@ namespace App3
                             Product product;
                             string jsonProduct = data.GetStringExtra("product");
                             product = JsonSerializer.Deserialize<Product>(jsonProduct);
+                            
                             itemsAdapter.mItems.addProduct(product);
+                            if(!spinnerCategories.SelectedItem.ToString().Equals("All"))
+                            itemsAdapter.currentItems.addProduct(product);
                             repositoryDB.addProduct(product);
                             itemsAdapter.NotifyDataSetChanged();
-                            
+                            itemsAdapter.FilterCategory.InvokeFilter(spinnerCategories.SelectedItem.ToString());
                         }
                        break;
                     }
@@ -125,11 +137,19 @@ namespace App3
                         Product product;
                         string jsonProduct = data.GetStringExtra("product");
                         product = JsonSerializer.Deserialize<Product>(jsonProduct);
-                        itemsAdapter.mItems.updateProduct(product,lastPosition);
+                      
+                        itemsAdapter.currentItems.updateProduct(product,itemsAdapter.mItems.updateProduct(product, lastPosition));
                         repositoryDB.updateProduct(product);
+
                         itemsAdapter.NotifyItemChanged(lastPosition);
-                    }
-                    break;
+                        itemsAdapter.FilterCategory.InvokeFilter(spinnerCategories.SelectedItem.ToString());
+                        }
+                        else if (resultCode == Result.Canceled)
+                        {
+                            itemsAdapter.NotifyItemChanged(lastPosition);
+                            itemsAdapter.FilterCategory.InvokeFilter(spinnerCategories.SelectedItem.ToString());
+                        }
+                        break;
                 }
             }
         }

@@ -1,6 +1,7 @@
 ﻿using Android.Runtime;
 using Android.Support.V7.Widget;
 using Android.Views;
+using Android.Views.Animations;
 using Android.Widget;
 using System;
 using System.Collections.Generic;
@@ -35,24 +36,51 @@ namespace App3
         }
         public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
         {
-            ItemHolder vh = holder as ItemHolder;
-         
-            //vh.Button.SetBackgroundResource(mItems[position].ItemID);
-            vh.Name.Text = mItems[position].Name;
-            vh.InStock.Text = mItems[position].InStock.ToString();
-            vh.Price.Text = mItems[position].Price.ToString();
-            vh.Category.Text = db.GetCategoryById(mItems[position].categoryId).Name;
             holder.ItemView.SetOnLongClickListener(this);
-            vh.SlectedCheckBox.Checked = mItems[vh.AdapterPosition].Checked;
-            if (!vh.SlectedCheckBox.HasOnClickListeners)
-            {
-                vh.SlectedCheckBox.Click += (sender, e) =>
-                {
-                    mItems[vh.AdapterPosition].Checked = !mItems[vh.AdapterPosition].Checked;
-                };
-            }
-            
-            
+            switch (mItems[position].getType()) {
+                case 1:
+                    {
+
+                        ItemHolder vh = holder as ItemHolder;
+
+                        //vh.Button.SetBackgroundResource(mItems[position].ItemID);
+                        vh.Name.Text = mItems[position].Name;
+                        vh.InStock.Text = mItems[position].InStock.ToString();
+                        vh.Price.Text = mItems[position].Price.ToString();
+                        vh.Category.Text = db.GetCategoryById(mItems[position].categoryId).Name;
+                        
+                        vh.SlectedCheckBox.Checked = mItems[vh.AdapterPosition].Checked;
+                        if (!vh.SlectedCheckBox.HasOnClickListeners)
+                        {
+                            vh.SlectedCheckBox.Click += (sender, e) =>
+                            {
+                                mItems[vh.AdapterPosition].Checked = !mItems[vh.AdapterPosition].Checked;
+                            };
+                        }
+                        if(!vh.hiddenDelete.HasOnClickListeners)
+                        {
+                            vh.hiddenDelete.Click += (sender, e) =>
+                            {
+                                delete(vh.AdapterPosition);
+                            };
+                        }
+                        if (!vh.hiddenEdit.HasOnClickListeners)
+                        {
+                            vh.hiddenEdit.Click += (sender, e) =>
+                            {
+                                edit(vh.AdapterPosition);
+                            };
+                        }
+                        break;
+                    }
+                case 0:
+                    {
+                        ItemHolder2 vh = holder as ItemHolder2;
+                        vh.Name.Text = "EMPTY\nEMPTY\nEMPTY";
+                        break;
+                    }
+
+        }
 
         }
 
@@ -81,15 +109,35 @@ namespace App3
             mItems.setItems(items);
            
         }
+        public override int GetItemViewType(int position)
+        {
+            return mItems[position].getType();
+            
 
+        }
         public override RecyclerView.ViewHolder
              OnCreateViewHolder(ViewGroup parent, int viewType)
         {
-            View itemView = LayoutInflater.From(parent.Context).
-                        Inflate(Resource.Layout.card, parent, false);
+            switch (viewType)
+            {
+                case 1:
+                    {
+                        View itemView = LayoutInflater.From(parent.Context).
+                                    Inflate(Resource.Layout.card, parent, false);
 
-            ItemHolder vh = new ItemHolder(itemView,this);
-            return vh;
+                        ItemHolder vh = new ItemHolder(itemView, this);
+                        return vh;
+                    }
+                case 0:
+                    {
+                        View itemView = LayoutInflater.From(parent.Context).
+                                   Inflate(Resource.Layout.card2, parent, false);
+
+                        ItemHolder2 vh = new ItemHolder2(itemView, this);
+                        return vh;
+                    }   
+            }
+            return null;
         }
         
         public override int ItemCount
@@ -108,20 +156,20 @@ namespace App3
         }
         public void OnClick()
         {
-        //    switch(option)
-        //    {
-        //        case "Delete":
-        //            {
-        //                delete(position);
-        //                break;
-        //            }
-        //        case "Edit":
-        //            {
-        //                edit(position);
-        //                break;
-        //            }
+            //    switch(option)
+            //    {
+            //        case "Delete":
+            //            {
+            //                delete(position);
+            //                break;
+            //            }
+            //        case "Edit":
+            //            {
+            //                edit(position);
+            //                break;
+            //            }
 
-        //    }
+           
             if (ItemClick != null)
                 ItemClick(this, recycleActivity.lastPosition);
         }
@@ -143,12 +191,12 @@ namespace App3
         {
             
             db.delete(mItems[position]);
-            mItems.deleteProduct(position);
+            currentItems.deleteProduct(mItems.deleteProduct(position));
             
             NotifyItemRemoved(position);
         }
 
-        private void edit(int position)
+        public void edit(int position)
         {
             recycleActivity.StartEditMode(mItems[position],position);
         }

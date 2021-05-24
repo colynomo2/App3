@@ -17,6 +17,17 @@ namespace App3
     [Table("Product")]
     public class Product
     {
+       
+
+        public void copy(Product product)
+        {
+            Name = product.Name;
+            Id = product.Id;
+            InStock = product.InStock;
+            Price = product.Price;
+            Checked = product.Checked;
+        }
+        
         [PrimaryKey, AutoIncrement, Column("_id")]
         public int Id { get; set; }
         [MaxLength(20)]
@@ -27,7 +38,9 @@ namespace App3
         [Ignore]
         public bool Checked { get; set; } = false;
         public static implicit operator String(Product product) => product.Name;
+        
 
+        public int getType() => !Name.Equals("") && Price>0 ? 1 : 0;
     }
     [Table("Category")]
     public class Category

@@ -12,30 +12,5 @@ using Android.Widget;
 
 namespace App3
 {
-    [Activity(Label = "ListView")]
-    public class ListView : Activity
-    {
-        List<Product> products;
-        RepositoryDB repositoryDB;
-        protected override void OnCreate(Bundle savedInstanceState)
-        {
-            
-            base.OnCreate(savedInstanceState);
-
-            // Create your application here
-            repositoryDB = new RepositoryDB();
-            products = repositoryDB.getAllProducts();
-            string[] names = convertMethod();
-
-
-        }
-
-        private string[] convertMethod()
-        {
-            List<string> s=new List<string>();
-            foreach (Product product in products)
-                s.Add(product.Name);
-            return s.ToArray();
-        }
-    }
+    
 }
