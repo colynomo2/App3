@@ -84,6 +84,12 @@ namespace App3
             db.CreateTable<Category>();
 
         }
+        public void refreshDB()
+        {
+            db = new SQLiteConnection(dbPath);
+            db.CreateTable<Product>();
+            db.CreateTable<Category>();
+        }
         public void addProduct(Product product)
         {
             db.Insert(product);

@@ -7,6 +7,7 @@ using Android.App;
 using Android.Content;
 using Android.OS;
 using Android.Runtime;
+using Android.Support.V4.Widget;
 using Android.Support.V7.Widget;
 using Android.Views;
 using Android.Widget;
@@ -14,7 +15,7 @@ using Android.Widget;
 namespace App3
 {
     [Activity(Label = "RecycleActivity")]
-    public class RecycleActivity : Activity
+    public class RecycleActivity : Activity, SwipeRefreshLayout.IOnRefreshListener
     {
         public static RecyclerView mRecyclerView;
         RecyclerView.LayoutManager mLayoutManager;
@@ -26,10 +27,10 @@ namespace App3
         Spinner spinnerCategories;
         public int lastPosition;
         Android.Support.V7.Widget.SearchView searchView;
-       
+        SwipeRefreshLayout mSwipeRefreshLayout;
         protected override void OnCreate(Bundle savedInstanceState)
         {
-            
+
             base.OnCreate(savedInstanceState);
 
             repositoryDB = new RepositoryDB();
@@ -39,14 +40,14 @@ namespace App3
                 productsList.Add(p);
             products = new Products(productsList);
 
-              
+
             SetContentView(Resource.Layout.recycle_gl);
             mRecyclerView = FindViewById<RecyclerView>(Resource.Id.recycleV);
 
-            itemsAdapter = new ItemsAdapter(products,mRecyclerView, repositoryDB,this);
+            itemsAdapter = new ItemsAdapter(products, mRecyclerView, repositoryDB, this);
             itemsAdapter.ItemClick += OnItemClick;
 
-            searchView= FindViewById<Android.Support.V7.Widget.SearchView>(Resource.Id.searchView);
+            searchView = FindViewById<Android.Support.V7.Widget.SearchView>(Resource.Id.searchView);
             mRecyclerView.SetAdapter(itemsAdapter);
 
             mLayoutManager = new LinearLayoutManager(this);
@@ -72,11 +73,34 @@ namespace App3
             var itemTouchHelperDelete = new Android.Support.V7.Widget.Helper.ItemTouchHelper(swipeHandlerDelete);
             itemTouchHelperDelete.AttachToRecyclerView(mRecyclerView);
 
-            var swipeHandlerEdit = new SwipeToEditCallback(0, Android.Support.V7.Widget.Helper.ItemTouchHelper.Right, this, products,itemsAdapter);
+            var swipeHandlerEdit = new SwipeToEditCallback(0, Android.Support.V7.Widget.Helper.ItemTouchHelper.Right, this, products, itemsAdapter);
             var itemTouchHelperEdit = new Android.Support.V7.Widget.Helper.ItemTouchHelper(swipeHandlerEdit);
             itemTouchHelperEdit.AttachToRecyclerView(mRecyclerView);
 
+
+            // SwipeRefreshLayout
+            mSwipeRefreshLayout = (SwipeRefreshLayout)FindViewById(Resource.Id.swipe_container);
+            mSwipeRefreshLayout.SetOnRefreshListener(this);
+         
+
         }
+public  void OnRefresh()
+        {
+            repositoryDB.refreshDB();
+            JavaList<Product> productsList = new JavaList<Product>();
+
+            foreach (Product p in repositoryDB.getAllProducts())
+                productsList.Add(p);
+            products = new Products(productsList);
+            itemsAdapter = new ItemsAdapter(products, mRecyclerView, repositoryDB, this);
+            itemsAdapter.ItemClick += OnItemClick;
+            mRecyclerView.SetAdapter(itemsAdapter);
+
+            itemsAdapter.NotifyDataSetChanged();
+           
+            mSwipeRefreshLayout.Refreshing = false;
+        }
+    
 
         private void SpinnerCategories_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
         {
@@ -164,5 +188,6 @@ namespace App3
 
         }
 
+        
     }
 }

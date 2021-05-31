@@ -26,7 +26,6 @@ namespace App3
             this.recyclerView = recyclerView;
             currentItems = new Products(items.getItems());
             this.recycleActivity = recycleActivity;
-           
             
         }
         public bool OnLongClick(View v)
@@ -36,6 +35,7 @@ namespace App3
         }
         public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
         {
+            
             holder.ItemView.SetOnLongClickListener(this);
             switch (mItems[position].getType()) {
                 case 1:

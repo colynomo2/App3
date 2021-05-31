@@ -48,6 +48,9 @@ namespace App3
         {
             mItems.Add(product);
         }
+
+        
+
         public int NumItems
         {
             get { return mItems.Count; }

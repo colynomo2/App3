@@ -194,33 +194,34 @@ namespace App3
                     , viewHolder, dX/ 10, dY, actionState, isCurrentlyActive);
                 return;
             }
-           
-
-           
-                float buttonWidthWithoutPadding = buttonWidth - 20;
-                float corners = 32;
-            Button delete = ((ItemHolder)viewHolder).hiddenDelete;
-            Button edit = ((ItemHolder)viewHolder).hiddenEdit;
-            delete.SetWidth((int)dX / 6);
-            var layoutParamDelete = delete.LayoutParameters;
-            var layoutParamEdit = edit.LayoutParameters;
-            delete.LayoutParameters.Width = (int)dX / 20;
-            edit.LayoutParameters.Width = (int)dX / 20;
-            
-            
-            //     Paint p = new Paint();
 
 
-            //     RectF leftButton = new RectF(itemView.Left, itemView.Top, dX/6, itemView.Bottom);
-            //     p.Color=Color.Orange;
-            //     c.DrawRoundRect(leftButton, corners, corners, p);
 
-            //drawText("EDIT", c, leftButton, p);
+            float buttonWidthWithoutPadding = buttonWidth - 20;
+            float corners = 32;
 
-            //     RectF rightButton = new RectF(itemView.Left + leftButton.Width(), itemView.Top, dX/3, itemView.Bottom);
-            //     p.Color=Color.Red;
-            //     c.DrawRoundRect(rightButton, corners, corners, p);
-            //     drawText("DELETE", c, rightButton, p);
+            //Button delete = ((ItemHolder)viewHolder).hiddenDelete;
+            //Button edit = ((ItemHolder)viewHolder).hiddenEdit;
+            //delete.SetWidth((int)dX / 6);
+            //var layoutParamDelete = delete.LayoutParameters;
+            //var layoutParamEdit = edit.LayoutParameters;
+            //delete.LayoutParameters.Width = (int)dX / 20;
+            //edit.LayoutParameters.Width = (int)dX / 20;
+
+
+            Paint p = new Paint();
+
+
+            RectF leftButton = new RectF(itemView.Left, itemView.Top, dX / 6, itemView.Bottom);
+            p.Color = Color.Orange;
+            c.DrawRoundRect(leftButton, corners, corners, p);
+
+            drawText("EDIT", c, leftButton, p);
+
+            RectF rightButton = new RectF(itemView.Left + leftButton.Width(), itemView.Top, dX / 3, itemView.Bottom);
+            p.Color = Color.Red;
+            c.DrawRoundRect(rightButton, corners, corners, p);
+            drawText("DELETE", c, rightButton, p);
 
 
 
