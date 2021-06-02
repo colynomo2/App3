@@ -14,6 +14,7 @@ using Android.Gms.Common;
 using Android.Gms.Location;
 using Android.Util;
 using System.Threading.Tasks;
+using Android.Gms.Maps;
 
 namespace App3
 {
@@ -37,14 +38,14 @@ namespace App3
             if (result.Locations.Count != 0)
             {
                 var location = result.Locations.First();
-                LocationActivity.longitude.Text = "Long:" + location.Longitude.ToString();
-                LocationActivity.latitude.Text = "Lat:" + location.Latitude.ToString();
+              //  LocationActivity.longitude.Text = "Long:" + location.Longitude.ToString();
+               // LocationActivity.latitude.Text = "Lat:" + location.Latitude.ToString();
                 Log.Debug("Sample", "The latitude is :" + location.Latitude);
             }
         }
     }
     [Activity(Label = "LocationActivity")]
-    public class LocationActivity : AppCompatActivity
+    public class LocationActivity : AppCompatActivity, IOnMapReadyCallback
     {
         FusedLocationProviderClient fusedLocationProviderClient;
         public static TextView longitude;
@@ -59,20 +60,29 @@ namespace App3
             base.OnCreate(savedInstanceState);
 
             SetContentView(Resource.Layout.location);
+
+            var mapFrag = MapFragment.NewInstance();
+            FragmentManager.BeginTransaction()
+                                    .Add(Resource.Id.map_container, mapFrag, "map_fragment")
+                                    .Commit();
+            
             locationCallback = new LocationCallbackHelper();
             fusedLocationProviderClient = LocationServices.GetFusedLocationProviderClient(this);
-            longitude = FindViewById<TextView>(Resource.Id.longi);
-            latitude = FindViewById<TextView>(Resource.Id.lat);
-             GetLastLocationFromDevice();
+          //  longitude = FindViewById<TextView>(Resource.Id.longi);
+           // latitude = FindViewById<TextView>(Resource.Id.lat);
+            GetLastLocationFromDevice();
+            Subscribe();
+            //OnMapReady();
+        }
+
+        private void Subscribe()
+        {
             locationRequest = new LocationRequest();
             locationRequest.SetInterval(UPDATE_INTERVAL);
             locationRequest.SetFastestInterval(FASTEST_INTERVAL);
             locationRequest.SetPriority(LocationRequest.PriorityHighAccuracy);
             locationRequest.SetSmallestDisplacement(DISPLACEMENT);
-             fusedLocationProviderClient.RequestLocationUpdates(locationRequest, locationCallback,null);
-
-            
-
+            fusedLocationProviderClient.RequestLocationUpdates(locationRequest, locationCallback, null);
         }
 
         bool IsGooglePlayServicesInstalled()
@@ -116,8 +126,11 @@ namespace App3
                 Log.Debug("Sample", "The latitude is " + location.Latitude);
             }
         }
-        async Task Subscribe()
+
+        public void OnMapReady(GoogleMap googleMap)
         {
+            googleMap.MyLocationEnabled = true;
+            googleMap.SetLocationSource((ILocationSource)fusedLocationProviderClient.GetLastLocationAsync().Result);
         }
     }
 }
