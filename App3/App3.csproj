@@ -61,6 +61,7 @@
     <Compile Include="AddActivity.cs" />
     <Compile Include="GalleryAdapter.cs" />
     <Compile Include="IamgeHolder.cs" />
+    <Compile Include="LocationActivity.cs" />
     <Compile Include="SwipeToDeleteCallback.cs" />
     <Compile Include="ListView.cs" />
     <Compile Include="FilterHelper.cs" />
@@ -145,6 +146,9 @@
     <PackageReference Include="Xamarin.Android.Support.v7.RecyclerView">
       <Version>28.0.0.3</Version>
     </PackageReference>
+    <PackageReference Include="Xamarin.GooglePlayServices.Location">
+      <Version>60.1142.1</Version>
+    </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\recycle_gl.axml">
@@ -197,6 +201,11 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\recyclre3.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\location.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>

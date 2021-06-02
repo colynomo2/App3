@@ -54,5 +54,15 @@
 			android:text="Camera"
 	
 			android:id="@+id/cameraButton"/>
+		<Button
+		
+		android:layout_width="wrap_content"
+			android:layout_height="100dp"
+			android:background="#220022"
+			android:padding="0dp"
+			android:text="Location"
+			android:textColor="#ff00ff"
+	
+			android:id="@+id/locationButton"/>
 </android.support.v7.widget.GridLayout>
 	</LinearLayout>

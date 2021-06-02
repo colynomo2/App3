@@ -31,14 +31,14 @@ namespace App3
         Spinner spinnerCategories;
         public int lastPosition;
         Android.Support.V7.Widget.SearchView searchView;
-        SwipeRefreshLayout mSwipeRefreshLayout;
+        SwipeRefreshLayout mSwipeRefreshLayout; bool zoomed = false;
         protected override void OnCreate(Bundle savedInstanceState)
         {
 
             base.OnCreate(savedInstanceState);
 
             List<string> imagePaths = GetAllImagePath();
-
+           
             List<byte[]> allImages = new List<byte[]>();
             byte[] cachedBytes;
             List<Bitmap> images = new List<Bitmap>();
@@ -81,18 +81,15 @@ namespace App3
 
 
 
-            viewPager.PageScrolled += ViewPager_PageScrolled; 
+ 
 
 
-
-        }
-
-        private void ViewPager_PageScrolled(object sender, ViewPager.PageScrolledEventArgs e)
-        {
-            viewPager.ScaleX -= 0.1f;
-            viewPager.ScaleY -= 0.1f;
             
         }
+
+      
+
+      
 
 
 
@@ -154,8 +151,19 @@ namespace App3
             var viewPager = container.JavaCast<ViewPager>();
             viewPager.AddView(imageView);
             imageView.Click +=ViewPager_Click ;
+            imageView.LongClick += ImageView_LongClick1; ; ; ; ;
             return imageView;
         }
+
+        private void ImageView_LongClick1(object sender, View.LongClickEventArgs e)
+        {
+           
+                ((ImageView)sender).ScaleX *= 2f;
+                ((ImageView)sender).ScaleY *= 2f;
+           
+        }
+
+       
 
         public override void DestroyItem(View container, int position, Java.Lang.Object view)
         {

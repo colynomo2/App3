@@ -38,6 +38,7 @@ namespace App3
         Button recycleViewPageButton;
         Button gridViewPageButton;
         Button cameraButton;
+        Button locationButton;
         private Button notificationButton;
         private static readonly int notificationButtonClicl = 9999;
         protected override void OnCreate(Bundle savedInstanceState)
@@ -47,6 +48,9 @@ namespace App3
            
           
             var listPermissions = new System.Collections.Generic.List<string>();
+            if (ContextCompat.CheckSelfPermission(this, Android.Manifest.Permission.AccessFineLocation) != Permission.Granted)
+                listPermissions.Add(Android.Manifest.Permission.AccessFineLocation);
+
 
             if (ContextCompat.CheckSelfPermission(this, Android.Manifest.Permission.ReadExternalStorage) != Permission.Granted)
                 listPermissions.Add(Android.Manifest.Permission.ReadExternalStorage);
@@ -104,7 +108,15 @@ namespace App3
             notificationButton.Click += NotificationButton_Click;
             cameraButton = FindViewById<Button>(Resource.Id.cameraButton);
             cameraButton.Click += CameraButton_Click;
+            locationButton = FindViewById<Button>(Resource.Id.locationButton);
+            locationButton.Click += LocationButton_Click; ;
 
+        }
+
+        private void LocationButton_Click(object sender, EventArgs e)
+        {
+            Intent nextActivity = new Intent(this, typeof(LocationActivity));
+            StartActivity(nextActivity);
         }
 
         private void CameraButton_Click(object sender, EventArgs e)
