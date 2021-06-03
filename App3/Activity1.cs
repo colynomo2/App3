@@ -45,6 +45,9 @@ namespace App3
             // Set our view from the "main" layout resource
             SetContentView(Resource.Layout.activity_main);
 
+        
+
+
             dateText = FindViewById<EditText>(Resource.Id.dateText);
             dateText.Touch += DateText_Touch;
             DateTime dateTimeNow = DateTime.Now;
@@ -70,7 +73,7 @@ namespace App3
 
 
 
-
+            
 
         }
 

@@ -14,6 +14,22 @@ using SQLite;
 
 namespace App3
 {
+    [Table("Shop")]
+    public class Shop
+    {
+
+
+       
+
+        [PrimaryKey, AutoIncrement, Column("_id")]
+        public int Id { get; set; }
+        [MaxLength(20)]
+        public string Name { get; set; }
+        public double Longitude { get; set; }
+        public double Latitude { get; set; }
+
+
+    }
     [Table("Product")]
     public class Product
     {
@@ -82,13 +98,14 @@ namespace App3
             db = new SQLiteConnection(dbPath);
             db.CreateTable<Product>();
             db.CreateTable<Category>();
-
+            db.CreateTable<Shop>();
         }
         public void refreshDB()
         {
             db = new SQLiteConnection(dbPath);
             db.CreateTable<Product>();
             db.CreateTable<Category>();
+            db.CreateTable<Shop>();
         }
         public void addProduct(Product product)
         {
@@ -105,6 +122,10 @@ namespace App3
             return db.Query<Product>("select * from Product");
             
 
+        }
+        public List<Shop> getAllShops()
+        {
+            return db.Query<Shop>("select * from Shop");
         }
         public List<Category> GetCategories()
         {

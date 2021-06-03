@@ -15,6 +15,8 @@ using Android.Gms.Location;
 using Android.Util;
 using System.Threading.Tasks;
 using Android.Gms.Maps;
+using Android.Locations;
+using Android.Gms.Maps.Model;
 
 namespace App3
 {
@@ -38,8 +40,10 @@ namespace App3
             if (result.Locations.Count != 0)
             {
                 var location = result.Locations.First();
-              //  LocationActivity.longitude.Text = "Long:" + location.Longitude.ToString();
-               // LocationActivity.latitude.Text = "Lat:" + location.Latitude.ToString();
+                //  LocationActivity.longitude.Text = "Long:" + location.Longitude.ToString();
+                // LocationActivity.latitude.Text = "Lat:" + location.Latitude.ToString();
+                LocationActivity.googleMap.MoveCamera(CameraUpdateFactory.NewCameraPosition(new Android.Gms.Maps.Model.CameraPosition(new Android.Gms.Maps.Model.LatLng(location.Latitude, location.Longitude), LocationActivity.googleMap.CameraPosition.Zoom, LocationActivity.googleMap.CameraPosition.Tilt, LocationActivity.googleMap.CameraPosition.Bearing)));
+
                 Log.Debug("Sample", "The latitude is :" + location.Latitude);
             }
         }
@@ -47,6 +51,7 @@ namespace App3
     [Activity(Label = "LocationActivity")]
     public class LocationActivity : AppCompatActivity, IOnMapReadyCallback
     {
+        public static GoogleMap googleMap;
         FusedLocationProviderClient fusedLocationProviderClient;
         public static TextView longitude;
         public static TextView latitude;
@@ -55,17 +60,29 @@ namespace App3
         static int FASTEST_INTERVAL = 5;
         static int DISPLACEMENT = 3; //meters
         LocationCallbackHelper locationCallback;
+        private RepositoryDB repositoryDB;
+        JavaList<Shop> shopsList;
         protected override void OnCreate(Bundle savedInstanceState)
         {
-            base.OnCreate(savedInstanceState);
 
+           
+            base.OnCreate(savedInstanceState);
+            repositoryDB = new RepositoryDB();
+            shopsList = new JavaList<Shop>();
+
+            foreach (Shop s in repositoryDB.getAllShops())
+                shopsList.Add(s);
+            
             SetContentView(Resource.Layout.location);
 
             var mapFrag = MapFragment.NewInstance();
-            FragmentManager.BeginTransaction()
-                                    .Add(Resource.Id.map_container, mapFrag, "map_fragment")
-                                    .Commit();
             
+            FragmentManager.BeginTransaction()
+                
+                                    .Add(Resource.Id.map_container, mapFrag, "map_fragment")
+                                    
+                                    .Commit();
+            mapFrag.GetMapAsync(this);
             locationCallback = new LocationCallbackHelper();
             fusedLocationProviderClient = LocationServices.GetFusedLocationProviderClient(this);
           //  longitude = FindViewById<TextView>(Resource.Id.longi);
@@ -129,8 +146,22 @@ namespace App3
 
         public void OnMapReady(GoogleMap googleMap)
         {
+
+            googleMap.MapType = GoogleMap.MapTypeHybrid;
             googleMap.MyLocationEnabled = true;
-            googleMap.SetLocationSource((ILocationSource)fusedLocationProviderClient.GetLastLocationAsync().Result);
+            //googleMap.MoveCamera(CameraUpdateFactory.ZoomIn());
+            LocationActivity.googleMap = googleMap;
+           foreach(Shop s in shopsList)
+            {
+                MarkerOptions markerOpt1 = new MarkerOptions();
+                markerOpt1.SetPosition(new LatLng(s.Latitude, s.Longitude));
+                markerOpt1.SetTitle(s.Name);
+
+                googleMap.AddMarker(markerOpt1);
+                
+            }
         }
+
+
     }
 }

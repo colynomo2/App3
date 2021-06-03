@@ -110,7 +110,25 @@ namespace App3
             cameraButton.Click += CameraButton_Click;
             locationButton = FindViewById<Button>(Resource.Id.locationButton);
             locationButton.Click += LocationButton_Click; ;
+            try
+            {
 
+                ro.infovalutar.www.Curs curs = new ro.infovalutar.www.Curs();
+                double valEuro = curs.GetValue(DateTime.Now, "EUR");
+                //MessageBox.Show(this, "Valoarea euro = " + valEuro);
+                testPageButton.Text ="1 EURO = " + valEuro.ToString()+ " RON";
+
+            }
+            catch (System.Net.WebException exWeb)
+            {
+                testPageButton.Text = "Please ensure you are connected to the internet";
+                // MessageBox.Show(this, "Please ensure you are connected to the internet", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (Exception ex)
+            {
+                // MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                testPageButton.Text = ex.Message;
+            }
         }
 
         private void LocationButton_Click(object sender, EventArgs e)
