@@ -6,63 +6,81 @@
     android:layout_height="fill_parent">
 <android.support.v7.widget.GridLayout 
 	
-    android:layout_width="330dp"
-    android:layout_height="330dp"
-    app:columnCount="2"
+    android:layout_width="400dp"
+    android:layout_height="400dp"
+    app:columnCount="3"
     app:rowCount="3">
     <Button
-      android:layout_width="wrap_content"
-    android:layout_height="100dp"
+      android:layout_width="50dp"
+    android:layout_height="50dp"
        
         android:background="#F44336"
-      
+		 
         android:text="testPage" 
 	android:id="@+id/testPage"
 		/>
 		
 		<Button
-			android:layout_width="wrap_content"
-			android:layout_height="100dp"
+			android:layout_width="50dp"
+			android:layout_height="50dp"
 			android:background="#2196F3"
 			android:padding="0dp"
 			android:text="recycleView"
-			
+					 
+
 			android:id="@+id/recycleViewPage"/>
     <Button
 			
-			android:layout_width="wrap_content"
-			android:layout_height="100dp"
+			android:layout_width="50dp"
+			android:layout_height="50dp"
 			android:background="#ff00ff"
 			android:padding="0dp"
 			android:text="Gallery"
-			
+					 
+
 			android:id="@+id/gridViewPage"/>
 			<Button
-			android:layout_width="wrap_content"
-			android:layout_height="100dp"
+			android:layout_width="50dp"
+			android:layout_height="50dp"
 			android:background="#ff0000"
 			android:padding="0dp"
 			android:text="NOTIFY ME"
-	
+			 
+
 			android:id="@+id/notificationButton"/>
 		<Button
 		
-		android:layout_width="wrap_content"
-			android:layout_height="100dp"
+		android:layout_width="50dp"
+			android:layout_height="50dp"
 			android:background="#229022"
 			android:padding="0dp"
-			android:text="Camera"
+			android:text="Camera"		
+					 
+
 	
 			android:id="@+id/cameraButton"/>
 		<Button
 		
-		android:layout_width="wrap_content"
-			android:layout_height="100dp"
-			android:background="#220022"
+		android:layout_width="50dp"
+			android:layout_height="50dp"
+			android:background="#220022"		
+					 
+
 			android:padding="0dp"
 			android:text="Location"
 			android:textColor="#ff00ff"
 	
 			android:id="@+id/locationButton"/>
+		<Button
+		
+		android:layout_width="50dp"
+			android:layout_height="50dp"
+			android:background="#000022"
+			android:padding="0dp"
+			android:text="addShop"
+			android:textColor="#0000ff"		 
+
+	
+			android:id="@+id/addShop"/>
 </android.support.v7.widget.GridLayout>
 	</LinearLayout>

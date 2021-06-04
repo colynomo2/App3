@@ -100,6 +100,12 @@ namespace App3
             db.CreateTable<Category>();
             db.CreateTable<Shop>();
         }
+
+        internal void addShop(Shop s)
+        {
+            db.Insert(s);
+        }
+
         public void refreshDB()
         {
             db = new SQLiteConnection(dbPath);

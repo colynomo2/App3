@@ -151,7 +151,8 @@ namespace App3
             googleMap.MyLocationEnabled = true;
             //googleMap.MoveCamera(CameraUpdateFactory.ZoomIn());
             LocationActivity.googleMap = googleMap;
-           foreach(Shop s in shopsList)
+            
+           foreach (Shop s in shopsList)
             {
                 MarkerOptions markerOpt1 = new MarkerOptions();
                 markerOpt1.SetPosition(new LatLng(s.Latitude, s.Longitude));

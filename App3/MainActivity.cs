@@ -39,6 +39,7 @@ namespace App3
         Button gridViewPageButton;
         Button cameraButton;
         Button locationButton;
+        Button addShopButton;
         private Button notificationButton;
         private static readonly int notificationButtonClicl = 9999;
         protected override void OnCreate(Bundle savedInstanceState)
@@ -109,7 +110,9 @@ namespace App3
             cameraButton = FindViewById<Button>(Resource.Id.cameraButton);
             cameraButton.Click += CameraButton_Click;
             locationButton = FindViewById<Button>(Resource.Id.locationButton);
-            locationButton.Click += LocationButton_Click; ;
+            locationButton.Click += LocationButton_Click;
+            addShopButton = FindViewById<Button>(Resource.Id.addShop);
+            addShopButton.Click += AddShopButton_Click; ;
             try
             {
 
@@ -129,6 +132,12 @@ namespace App3
                 // MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 testPageButton.Text = ex.Message;
             }
+        }
+
+        private void AddShopButton_Click(object sender, EventArgs e)
+        {
+            Intent nextActivity = new Intent(this, typeof(AddShopActivity));
+            StartActivity(nextActivity);
         }
 
         private void LocationButton_Click(object sender, EventArgs e)

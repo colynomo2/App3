@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+	android:orientation="vertical"
+	>
+	
+	<LinearLayout
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:paddingTop="4dp"
+			android:weightSum="100"
+		>
+		<TextView
+			android:layout_weight="70"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:text="Name"
+			android:textSize="16sp"
+			android:textStyle="bold"
+			android:textColor="@color/text_color"
+			android:paddingLeft="10sp"
+		 />
+		<EditText
+			android:layout_weight="30"
+			android:layout_width="match_parent"
+			android:id="@+id/nameShop"
+			android:layout_height="wrap_content"
+		/>
+	</LinearLayout>
+	
+	<LinearLayout
+		android:weightSum="100"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:paddingTop="4dp"
+		>
+		<TextView
+			android:layout_weight="70"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:text="Long"
+			android:textSize="16sp"
+			android:textStyle="bold"
+			android:textColor="@color/text_color"
+			android:paddingLeft="10sp"
+		 />
+		<EditText
+			android:id="@+id/Longitude"
+
+			android:layout_weight="30"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+		
+		/>
+	</LinearLayout>
+	<LinearLayout
+		android:weightSum="100"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:paddingTop="4dp"
+		>
+		<TextView
+			android:layout_weight="70"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:text="Lat"
+			android:textSize="16sp"
+			android:textStyle="bold"
+			android:textColor="@color/text_color"
+			android:paddingLeft="10sp"
+		 />
+		<EditText
+			android:id="@+id/Latitude"
+
+			android:layout_weight="30"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+		
+		/>
+	</LinearLayout>
+	
+	<View
+		android:layout_height="0dp"
+		android:layout_width="0dp"
+		android:layout_weight="1"
+
+	/>
+	<LinearLayout
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:weightSum="100"
+		>
+		<Button
+			android:id="@+id/buttonConfirmShop"
+			android:layout_weight="26"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:background="@color/green_button_color"
+		 	android:text="Confirm"
+			android:textColor="@android:color/white"
+			
+			/>
+		<View
+		android:layout_height="0dp"
+		android:layout_width="match_parent"
+		android:layout_weight="48"/>
+		<Button
+			
+			android:id="@+id/buttonCancelShop"
+			android:layout_weight="26"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			
+			android:background="@color/orange_button_color"
+			android:textColor="@android:color/white"
+			android:text="Cancel"
+			/>
+		
+	</LinearLayout>
+</LinearLayout>
